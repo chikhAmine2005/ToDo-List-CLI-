@@ -1,21 +1,80 @@
 package main
 
 import (
-  "fmt"
+	"fmt"
+	"os"
 )
 
-//TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
-// the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.</p>
+type Task struct {
+	ID        int
+	Name      string
+	Completed bool
+}
+
+var tasks []Task
 
 func main() {
-  //TIP <p>Press <shortcut actionId="ShowIntentionActions"/> when your caret is at the underlined text
-  // to see how GoLand suggests fixing the warning.</p><p>Alternatively, if available, click the lightbulb to view possible fixes.</p>
-  s := "gopher"
-  fmt.Println("Hello and welcome, %s!", s)
+	loadTasks()
+	if len(os.Args) < 2 {
+		fmt.Println("Usage: todo [add|list|complete|delete]")
+		return
+	}
 
-  for i := 1; i <= 5; i++ {
-	//TIP <p>To start your debugging session, right-click your code in the editor and select the Debug option.</p> <p>We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-	// for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.</p>
-	fmt.Println("i =", 100/i)
-  }
+	switch os.Args[1] {
+	case "add":
+		if len(os.Args) < 3 {
+			fmt.Println("Please provide a task name")
+			return
+		}
+		addTask(os.Args[2])
+	case "list":
+		listTasks()
+	case "complete":
+		if len(os.Args) < 3 {
+			fmt.Println("Please provide a task ID")
+			return
+		}
+		completeTask(os.Args[2])
+	case "delete":
+		if len(os.Args) < 3 {
+			fmt.Println("Please provide a task ID")
+			return
+		}
+		deleteTask(os.Args[2])
+	default:
+		fmt.Println("Invalid command")
+	}
+	saveTasks()
+}
+
+func addTask(name string) {
+	task := Task{ID: len(tasks) + 1, Name: name, Completed: false}
+	tasks = append(tasks, task)
+	fmt.Printf("Added task: %s\n", name)
+}
+
+func listTasks() {
+	for _, task := range tasks {
+		status := "Incomplete"
+		if task.Completed {
+			status = "Completed"
+		}
+		fmt.Printf("%d. %s [%s]\n", task.ID, task.Name, status)
+	}
+}
+
+func completeTask(id string) {
+	// Implement task completion logic
+}
+
+func deleteTask(id string) {
+	// Implement task deletion logic
+}
+
+func loadTasks() {
+	// Load tasks from a file
+}
+
+func saveTasks() {
+	// Save tasks to a file
 }
