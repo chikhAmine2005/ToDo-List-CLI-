@@ -10,7 +10,7 @@ import (
 
 var addCmd = &cobra.Command{
 	Use:   "add",
-	Short: "Add a Task to the list",
+	Short: "Adds a Task to the list",
 
 	Run: func(cmd *cobra.Command, args []string) {
 		task := args[0]
