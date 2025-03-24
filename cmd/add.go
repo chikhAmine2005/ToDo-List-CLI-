@@ -30,9 +30,9 @@ func addTask(task string) {
 	defer writer.Flush()
 
 	timestamp := time.Now().Format(time.RFC3339)
-	err = writer.Write([]string{task, timestamp})
+	err = writer.Write([]string{task, "Pending", timestamp})
 	if err != nil {
-		print("error writing to file")
+		fmt.Println("Error writing to file:", err)
 		return
 	}
 
